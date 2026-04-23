@@ -1,0 +1,403 @@
+
+<h2 class="sr-only">TrackDépenses — Maquettes UI desktop, 6 écrans</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.snav{display:none;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-tertiary)}
+.snav button{padding:5px 11px;font-size:11px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+.snav button.act{background:var(--color-background-primary);color:var(--color-text-primary);border-color:var(--color-border-primary);font-weight:500}
+.screen{margin-bottom:20px}
+.app{display:flex;min-height:500px;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;background:var(--color-background-primary)}
+.sb{width:156px;flex-shrink:0;background:var(--color-background-secondary);border-right:.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;padding-bottom:12px}
+.sb-logo{padding:16px 14px 14px;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:6px}
+.sb-logo .l1{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.sb-logo .l2{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 14px;font-size:12px;color:var(--color-text-secondary);cursor:default}
+.ni.act{background:var(--color-background-info);color:var(--color-text-info);font-weight:500}
+.ni-ic{width:14px;height:14px;flex-shrink:0;opacity:.7}
+.ni.act .ni-ic{opacity:1}
+.sb-foot{margin-top:auto;padding:10px 14px;border-top:.5px solid var(--color-border-tertiary)}
+.mn{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.mh{padding:13px 18px;border-bottom:.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.mh-title{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.mh-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.mc{padding:16px 18px;flex:1;overflow:auto}
+.kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.kc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
+.kl{font-size:10px;color:var(--color-text-secondary);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
+.kv{font-size:20px;font-weight:500;color:var(--color-text-primary);font-variant-numeric:tabular-nums;line-height:1}
+.ks{font-size:10px;color:var(--color-text-secondary);margin-top:3px}
+.kv.amber{color:#BA7517}
+.kv.green{color:#3B6D11}
+.kv.red{color:#A32D2D}
+.cgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:10px;margin-bottom:16px}
+.cc{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px}
+.ct{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.etab{width:100%;border-collapse:collapse;font-size:12px}
+.etab th{text-align:left;font-size:10px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.05em;padding:5px 0;border-bottom:.5px solid var(--color-border-tertiary);font-weight:500}
+.etab td{padding:8px 0;border-bottom:.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle}
+.etab tr:last-child td{border-bottom:none}
+.etab .amt{font-variant-numeric:tabular-nums;font-weight:500;color:#BA7517;text-align:right}
+.etab .dt{color:var(--color-text-secondary);font-size:11px}
+.pill{font-size:10px;padding:2px 7px;border-radius:10px;display:inline-block;white-space:nowrap}
+.p-ali{background:#B5D4F4;color:#0C447C}
+.p-log{background:#9FE1CB;color:#085041}
+.p-tra{background:#FAC775;color:#633806}
+.p-san{background:#C0DD97;color:#27500A}
+.p-sho{background:#F4C0D1;color:#72243E}
+.p-loi{background:#CECBF6;color:#3C3489}
+.p-abo{background:#D3D1C7;color:#444441}
+.pr-wrap{height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;margin-top:4px}
+.pr-fill{height:100%;border-radius:3px}
+.btn-pri{background:#185FA5;color:#E6F1FB;border:none;padding:7px 14px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font-sans)}
+.lbl{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;display:block}
+.section-title{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.badge-ct{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+</style>
+
+<div class="snav" id="snav">
+  <button class="act" onclick="go(0)">Connexion</button>
+  <button onclick="go(1)">Tableau de bord</button>
+  <button onclick="go(2)">État vide</button>
+  <button onclick="go(3)">+ Dépense</button>
+  <button onclick="go(4)">Mes dépenses</button>
+  <button onclick="go(5)">Budgets</button>
+</div>
+
+<!-- ── S0 : CONNEXION ─────────────────────────────── -->
+<div class="screen" id="s0">
+<div style="background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:40px 20px;display:flex;align-items:center;justify-content:center;min-height:480px">
+  <div style="width:340px">
+    <div style="margin-bottom:28px">
+      <div style="font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px">TrackDépenses</div>
+      <div style="font-size:13px;color:var(--color-text-secondary)">Gérez vos finances personnelles en toute simplicité</div>
+    </div>
+    <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:24px">
+      <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:20px">Connexion</div>
+      <div style="margin-bottom:14px">
+        <label class="lbl">Adresse e-mail</label>
+        <input type="email" value="sara.bennani@gmail.com" style="width:100%;font-size:13px" readonly>
+      </div>
+      <div style="margin-bottom:20px">
+        <label class="lbl" style="display:flex;justify-content:space-between"><span>Mot de passe</span><span style="font-weight:400;color:#185FA5;cursor:pointer">Oublié ?</span></label>
+        <input type="password" value="••••••••" style="width:100%;font-size:13px" readonly>
+      </div>
+      <button class="btn-pri" style="width:100%;padding:10px;font-size:13px">Se connecter</button>
+      <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--color-text-secondary)">Pas encore de compte ? <span style="color:#185FA5;cursor:pointer;font-weight:500">Créer un compte</span></div>
+    </div>
+    <div style="margin-top:16px;text-align:center;font-size:11px;color:var(--color-text-secondary)">Données chiffrées · Confidentiel · MAD</div>
+  </div>
+</div>
+</div>
+
+<!-- ── S1 : DASHBOARD ─────────────────────────────── -->
+<div class="screen" id="s1">
+<div class="app">
+  <aside class="sb">
+    <div class="sb-logo"><div class="l1">TrackDépenses</div><div class="l2">Sara Bennani</div></div>
+    <div class="ni act">
+      <svg class="ni-ic" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/></svg>
+      Tableau de bord
+    </div>
+    <div class="ni">
+      <svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M1 7h12M1 11h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Mes dépenses
+    </div>
+    <div class="ni">
+      <svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 11V5l4-3 4 3v6H1z" stroke="currentColor" stroke-width="1.2"/><rect x="5" y="7" width="2" height="4" rx=".5" fill="currentColor" opacity=".5"/></svg>
+      Budgets
+    </div>
+    <div class="ni">
+      <svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h7M2 10h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="10" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg>
+      Catégories
+    </div>
+    <div class="sb-foot" style="font-size:11px;color:var(--color-text-secondary)">Avr 2026</div>
+  </aside>
+  <div class="mn">
+    <div class="mh">
+      <div><div class="mh-title">Tableau de bord</div><div class="mh-sub">Avril 2026</div></div>
+      <button class="btn-pri">+ Dépense</button>
+    </div>
+    <div class="mc">
+      <div class="kgrid">
+        <div class="kc"><div class="kl">Dépenses du mois</div><div class="kv amber">6 050</div><div class="ks">MAD · 18 dépenses</div></div>
+        <div class="kc"><div class="kl">Budget restant</div><div class="kv green">1 450</div><div class="ks">sur 7 500 MAD alloués</div></div>
+        <div class="kc"><div class="kl">Vs mois dernier</div><div class="kv red">+1,6 %</div><div class="ks">Mars : 5 960 MAD</div></div>
+      </div>
+      <div class="cgrid">
+        <div class="cc">
+          <div class="ct">Évolution mensuelle (6 mois)</div>
+          <svg viewBox="0 0 270 130" style="width:100%;height:130px">
+            <line x1="0" y1="118" x2="270" y2="118" stroke="var(--color-border-tertiary)" stroke-width=".5"/>
+            <line x1="0" y1="85" x2="270" y2="85" stroke="var(--color-border-tertiary)" stroke-width=".5" stroke-dasharray="3,3"/>
+            <line x1="0" y1="52" x2="270" y2="52" stroke="var(--color-border-tertiary)" stroke-width=".5" stroke-dasharray="3,3"/>
+            <rect x="8" y="48" width="28" height="70" rx="3" fill="#B5D4F4"/>
+            <rect x="52" y="14" width="28" height="104" rx="3" fill="#85B7EB"/>
+            <rect x="96" y="40" width="28" height="78" rx="3" fill="#B5D4F4"/>
+            <rect x="140" y="54" width="28" height="64" rx="3" fill="#B5D4F4"/>
+            <rect x="184" y="37" width="28" height="81" rx="3" fill="#B5D4F4"/>
+            <rect x="228" y="37.5" width="28" height="80.5" rx="3" fill="#185FA5"/>
+            <text x="22" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)">Nov</text>
+            <text x="66" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)">Déc</text>
+            <text x="110" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)">Jan</text>
+            <text x="154" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)">Fév</text>
+            <text x="198" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)">Mars</text>
+            <text x="242" y="128" text-anchor="middle" font-size="9" fill="var(--color-text-secondary)" font-family="var(--font-sans)" font-weight="500">Avr</text>
+            <text x="0" y="52" font-size="8" fill="var(--color-text-secondary)" font-family="var(--font-sans)">7,8k</text>
+            <text x="0" y="118" font-size="8" fill="var(--color-text-secondary)" font-family="var(--font-sans)">4,8k</text>
+          </svg>
+        </div>
+        <div class="cc">
+          <div class="ct">Par catégorie</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div><div class="badge-ct"><span style="font-size:11px;color:var(--color-text-primary)">Logement</span><span style="font-size:11px;font-weight:500;color:#BA7517">3 500</span></div><div class="pr-wrap"><div class="pr-fill" style="width:100%;background:#9FE1CB"></div></div></div>
+            <div><div class="badge-ct"><span style="font-size:11px;color:var(--color-text-primary)">Alimentation</span><span style="font-size:11px;font-weight:500;color:#BA7517">1 554</span></div><div class="pr-wrap"><div class="pr-fill" style="width:44%;background:#378ADD"></div></div></div>
+            <div><div class="badge-ct"><span style="font-size:11px;color:var(--color-text-primary)">Shopping</span><span style="font-size:11px;font-weight:500;color:#BA7517">580</span></div><div class="pr-wrap"><div class="pr-fill" style="width:17%;background:#D4537E"></div></div></div>
+            <div><div class="badge-ct"><span style="font-size:11px;color:var(--color-text-primary)">Transport</span><span style="font-size:11px;font-weight:500;color:#BA7517">237</span></div><div class="pr-wrap"><div class="pr-fill" style="width:7%;background:#BA7517"></div></div></div>
+            <div><div class="badge-ct"><span style="font-size:11px;color:var(--color-text-primary)">Loisirs & autres</span><span style="font-size:11px;font-weight:500;color:#BA7517">179</span></div><div class="pr-wrap"><div class="pr-fill" style="width:5%;background:#7F77DD"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">Dernières dépenses</div>
+      <table class="etab">
+        <thead><tr><th>Dépense</th><th>Catégorie</th><th style="text-align:right">Date</th><th style="text-align:right">Montant</th></tr></thead>
+        <tbody>
+          <tr><td>Loyer Avril</td><td><span class="pill p-log">Logement</span></td><td class="dt" style="text-align:right">01/04</td><td class="amt">3 500 MAD</td></tr>
+          <tr><td>Marjane — courses</td><td><span class="pill p-ali">Alimentation</span></td><td class="dt" style="text-align:right">05/04</td><td class="amt">312 MAD</td></tr>
+          <tr><td>Carrefour Market</td><td><span class="pill p-ali">Alimentation</span></td><td class="dt" style="text-align:right">09/04</td><td class="amt">234 MAD</td></tr>
+          <tr><td>Zara — vêtements</td><td><span class="pill p-sho">Shopping</span></td><td class="dt" style="text-align:right">17/04</td><td class="amt">580 MAD</td></tr>
+          <tr><td>Pharmacie Centrale</td><td><span class="pill p-san">Santé</span></td><td class="dt" style="text-align:right">14/04</td><td class="amt">280 MAD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── S2 : ÉTAT VIDE ─────────────────────────────── -->
+<div class="screen" id="s2">
+<div class="app">
+  <aside class="sb">
+    <div class="sb-logo"><div class="l1">TrackDépenses</div><div class="l2">Karim El Fassi</div></div>
+    <div class="ni act">
+      <svg class="ni-ic" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/></svg>
+      Tableau de bord
+    </div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M1 7h12M1 11h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Mes dépenses</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 11V5l4-3 4 3v6H1z" stroke="currentColor" stroke-width="1.2"/><rect x="5" y="7" width="2" height="4" rx=".5" fill="currentColor" opacity=".5"/></svg>Budgets</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h7M2 10h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Catégories</div>
+    <div class="sb-foot" style="font-size:11px;color:var(--color-text-secondary)">Avr 2026</div>
+  </aside>
+  <div class="mn">
+    <div class="mh"><div><div class="mh-title">Tableau de bord</div><div class="mh-sub">Première connexion</div></div><button class="btn-pri">+ Dépense</button></div>
+    <div class="mc" style="display:flex;align-items:center;justify-content:center;min-height:400px">
+      <div style="text-align:center;max-width:300px">
+        <svg viewBox="0 0 120 90" style="width:120px;height:90px;margin:0 auto 20px;display:block">
+          <rect x="20" y="15" width="80" height="55" rx="6" fill="var(--color-background-secondary)" stroke="var(--color-border-tertiary)" stroke-width="1"/>
+          <rect x="30" y="27" width="40" height="6" rx="2" fill="var(--color-border-secondary)"/>
+          <rect x="30" y="38" width="28" height="5" rx="2" fill="var(--color-border-tertiary)"/>
+          <rect x="30" y="49" width="35" height="5" rx="2" fill="var(--color-border-tertiary)"/>
+          <circle cx="80" cy="58" r="14" fill="#185FA5" opacity=".12"/>
+          <path d="M75 58h10M80 53v10" stroke="#185FA5" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px">Aucune dépense pour l'instant</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:20px">Commencez par enregistrer votre première dépense. Vos analyses et graphiques apparaîtront ici automatiquement.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);text-align:left">
+            <div style="width:26px;height:26px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#185FA5" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div><div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Enregistrer une dépense</div><div style="font-size:11px;color:var(--color-text-secondary)">Titre, montant, catégorie, date</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);text-align:left">
+            <div style="width:26px;height:26px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="2" width="8" height="8" rx="1.5" stroke="#3B6D11" stroke-width="1.5"/><path d="M4 6h4M4 8h2" stroke="#3B6D11" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div><div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Créer vos catégories</div><div style="font-size:11px;color:var(--color-text-secondary)">Personnalisez vos postes de dépense</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);text-align:left">
+            <div style="width:26px;height:26px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v4l3 1.5" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"/><circle cx="6" cy="6" r="5" stroke="#BA7517" stroke-width="1.2"/></svg>
+            </div>
+            <div><div style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Définir un budget mensuel</div><div style="font-size:11px;color:var(--color-text-secondary)">Plafond par catégorie + alertes</div></div>
+          </div>
+        </div>
+        <button class="btn-pri" style="padding:10px 24px;font-size:13px">Ajouter ma première dépense</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── S3 : ADD EXPENSE ───────────────────────────── -->
+<div class="screen" id="s3">
+<div style="min-height:520px;background:rgba(0,0,0,0.38);border-radius:var(--border-radius-lg);display:flex;align-items:center;justify-content:center;border:.5px solid var(--color-border-tertiary)">
+  <div style="background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-secondary);padding:24px;width:360px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:15px;font-weight:500;color:var(--color-text-primary)">Nouvelle dépense</div>
+      <div style="width:24px;height:24px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 1l8 8M9 1L1 9" stroke="var(--color-text-secondary)" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+    <div style="margin-bottom:13px"><label class="lbl">Titre de la dépense</label><input type="text" value="Marjane — courses semaine" style="width:100%;font-size:13px" readonly></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
+      <div>
+        <label class="lbl">Montant (MAD)</label>
+        <input type="number" value="347" style="width:100%;font-size:13px" readonly>
+      </div>
+      <div>
+        <label class="lbl">Date</label>
+        <input type="date" value="2026-04-22" style="width:100%;font-size:13px" readonly>
+      </div>
+    </div>
+    <div style="margin-bottom:13px"><label class="lbl">Catégorie</label><select style="width:100%;font-size:13px"><option selected>Alimentation</option><option>Logement</option><option>Transport</option><option>Shopping</option><option>Santé</option><option>Loisirs</option></select></div>
+    <div style="margin-bottom:20px">
+      <label class="lbl">Note (optionnel)</label>
+      <input type="text" placeholder="ex. Courses de la semaine" style="width:100%;font-size:13px" readonly>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button style="flex:1;padding:9px;font-size:13px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans)">Annuler</button>
+      <button class="btn-pri" style="flex:2;padding:9px;font-size:13px">Enregistrer la dépense</button>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px">
+      <input type="checkbox" id="recur" style="width:14px;height:14px">
+      <label for="recur" style="font-size:12px;color:var(--color-text-secondary)">Dépense récurrente — répéter chaque mois</label>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── S4 : LISTE DÉPENSES ────────────────────────── -->
+<div class="screen" id="s4">
+<div class="app">
+  <aside class="sb">
+    <div class="sb-logo"><div class="l1">TrackDépenses</div><div class="l2">Sara Bennani</div></div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/></svg>Tableau de bord</div>
+    <div class="ni act"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M1 7h12M1 11h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Mes dépenses</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 11V5l4-3 4 3v6H1z" stroke="currentColor" stroke-width="1.2"/><rect x="5" y="7" width="2" height="4" rx=".5" fill="currentColor" opacity=".5"/></svg>Budgets</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h7M2 10h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Catégories</div>
+    <div class="sb-foot" style="font-size:11px;color:var(--color-text-secondary)">Avr 2026</div>
+  </aside>
+  <div class="mn">
+    <div class="mh"><div><div class="mh-title">Mes dépenses</div><div class="mh-sub">18 dépenses · 6 050 MAD</div></div><button class="btn-pri">+ Dépense</button></div>
+    <div class="mc">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <input type="text" placeholder="Rechercher..." value="Marjane" style="width:140px;font-size:12px" readonly>
+        <select style="font-size:12px"><option>Toutes catégories</option><option>Alimentation</option><option>Logement</option></select>
+        <select style="font-size:12px"><option selected>Avril 2026</option><option>Mars 2026</option><option>Février 2026</option></select>
+        <select style="font-size:12px"><option>Trier : Date ↓</option><option>Trier : Montant ↓</option></select>
+        <button style="font-size:11px;padding:6px 10px;border:.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans)">Export PDF</button>
+      </div>
+      <table class="etab">
+        <thead><tr><th style="width:28%">Dépense</th><th>Catégorie</th><th style="text-align:right">Date</th><th style="text-align:right">Montant</th><th style="width:36px"></th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:500">Loyer Avril</td><td><span class="pill p-log">Logement</span></td><td class="dt" style="text-align:right">01/04</td><td class="amt">3 500 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Marjane — courses</td><td><span class="pill p-ali">Alimentation</span></td><td class="dt" style="text-align:right">05/04</td><td class="amt">312 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Carrefour Market</td><td><span class="pill p-ali">Alimentation</span></td><td class="dt" style="text-align:right">09/04</td><td class="amt">234 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Pharmacie Centrale</td><td><span class="pill p-san">Santé</span></td><td class="dt" style="text-align:right">14/04</td><td class="amt">280 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Uber × 3</td><td><span class="pill p-tra">Transport</span></td><td class="dt" style="text-align:right">12/04</td><td class="amt">145 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Zara — vêtements</td><td><span class="pill p-sho">Shopping</span></td><td class="dt" style="text-align:right">17/04</td><td class="amt">580 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Netflix</td><td><span class="pill p-loi">Loisirs</span></td><td class="dt" style="text-align:right">19/04</td><td class="amt">110 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+          <tr><td style="font-weight:500">Inwi Mobile</td><td><span class="pill p-abo">Abonnements</span></td><td class="dt" style="text-align:right">20/04</td><td class="amt">99 MAD</td><td><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--color-border-secondary)" stroke-width="1"/><path d="M4.5 7h5M7 4.5v5" stroke="var(--color-text-secondary)" stroke-width="1.2" stroke-linecap="round"/></svg></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:11px;color:var(--color-text-secondary);text-align:right">Affichage 8 / 18 dépenses</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ── S5 : BUDGETS ───────────────────────────────── -->
+<div class="screen" id="s5">
+<div class="app">
+  <aside class="sb">
+    <div class="sb-logo"><div class="l1">TrackDépenses</div><div class="l2">Sara Bennani</div></div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor" opacity=".5"/></svg>Tableau de bord</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M1 7h12M1 11h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Mes dépenses</div>
+    <div class="ni act"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M1 11V5l4-3 4 3v6H1z" stroke="currentColor" stroke-width="1.2"/><rect x="5" y="7" width="2" height="4" rx=".5" fill="currentColor" opacity=".5"/></svg>Budgets</div>
+    <div class="ni"><svg class="ni-ic" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h7M2 10h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Catégories</div>
+    <div class="sb-foot" style="font-size:11px;color:var(--color-text-secondary)">Avr 2026</div>
+  </aside>
+  <div class="mn">
+    <div class="mh"><div><div class="mh-title">Budgets — Avril 2026</div><div class="mh-sub">Budget global : 7 500 MAD · Utilisé : 6 050 MAD (81 %)</div></div><button class="btn-pri">Modifier</button></div>
+    <div class="mc">
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+        <div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;font-weight:500;color:var(--color-text-primary)">Budget global mensuel</span><span style="font-size:12px;font-weight:500;color:#3B6D11">1 450 MAD restants</span></div><div class="pr-wrap" style="height:8px"><div class="pr-fill" style="width:81%;background:#3B6D11"></div></div></div>
+        <div style="font-size:20px;font-weight:500;color:#BA7517;font-variant-numeric:tabular-nums;flex-shrink:0">81 %</div>
+      </div>
+      <div class="section-title">Par catégorie</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-log" style="font-size:11px">Logement</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">3 500 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 3 500 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#A32D2D;background:#FCEBEB;padding:3px 8px;border-radius:10px">100 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:100%;background:#A32D2D"></div></div>
+          <div style="font-size:10px;color:#A32D2D;margin-top:5px">Budget atteint</div>
+        </div>
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-ali" style="font-size:11px">Alimentation</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">1 554 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 2 500 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#3B6D11;background:#EAF3DE;padding:3px 8px;border-radius:10px">62 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:62%;background:#3B6D11"></div></div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:5px">946 MAD restants</div>
+        </div>
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-sho" style="font-size:11px">Shopping</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">580 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 600 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#BA7517;background:#FAEEDA;padding:3px 8px;border-radius:10px">97 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:97%;background:#BA7517"></div></div>
+          <div style="font-size:10px;color:#BA7517;margin-top:5px">Attention : 20 MAD restants</div>
+        </div>
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-tra" style="font-size:11px">Transport</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">237 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 800 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#3B6D11;background:#EAF3DE;padding:3px 8px;border-radius:10px">30 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:30%;background:#378ADD"></div></div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:5px">563 MAD restants</div>
+        </div>
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-san" style="font-size:11px">Santé</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">280 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 400 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#3B6D11;background:#EAF3DE;padding:3px 8px;border-radius:10px">70 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:70%;background:#639922"></div></div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:5px">120 MAD restants</div>
+        </div>
+
+        <div style="background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div><span class="pill p-loi" style="font-size:11px">Loisirs</span><div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-top:5px;font-variant-numeric:tabular-nums">110 <span style="font-size:11px;font-weight:400;color:var(--color-text-secondary)">/ 500 MAD</span></div></div>
+            <span style="font-size:12px;font-weight:500;color:#3B6D11;background:#EAF3DE;padding:3px 8px;border-radius:10px">22 %</span>
+          </div>
+          <div class="pr-wrap"><div class="pr-fill" style="width:22%;background:#7F77DD"></div></div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:5px">390 MAD restants</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const screens = ['s0','s1','s2','s3','s4','s5'];
+const btns = document.querySelectorAll('.snav button');
+function go(i){
+  screens.forEach(function(id,j){
+    const el = document.getElementById(id);
+    el.style.display = j===i ? 'block' : 'none';
+    el.style.marginBottom = '0';
+  });
+  btns.forEach(function(b,j){ b.className = j===i ? 'act' : ''; });
+}
+document.getElementById('snav').style.display = 'flex';
+go(0);
+</script>
